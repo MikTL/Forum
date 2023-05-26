@@ -1,0 +1,11 @@
+CREATE TABLE topics (
+id INT PRIMARY KEY AUTO_INCREMENT,
+title VARCHAR(255) NOT NULL UNIQUE,
+message TEXT NOT NULL,
+creation_date TIMESTAMP NOT NULL,
+status_topic VARCHAR(255) NOT NULL,
+id_user INT NOT NULL,
+id_course INT NOT NULL,
+FOREIGN KEY (id_user) REFERENCES users(id),
+FOREIGN KEY (id_course) REFERENCES courses(id)
+);
