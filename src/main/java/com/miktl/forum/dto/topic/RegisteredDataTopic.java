@@ -1,16 +1,18 @@
 package com.miktl.forum.dto.topic;
 
+import com.miktl.forum.domain.topic.StatusTopic;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
+
 public record RegisteredDataTopic(
-        @NotBlank
+        Long id,
         String title,
-        @NotBlank
         String message,
-        @NotNull
-        Long id_author,
-        @NotNull
-        Long id_course
+        LocalDateTime creationDate,
+        StatusTopic statusTopic,
+        String author,
+        String course
 
 ) {}
