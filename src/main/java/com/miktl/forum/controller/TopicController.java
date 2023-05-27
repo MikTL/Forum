@@ -43,4 +43,9 @@ public class TopicController {
     public ResponseEntity<Page<TopicListingData>> ListTopics(@PageableDefault(size = 10)Pageable pageable){
         return ResponseEntity.ok(topicService.ListTopics(pageable));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RegisteredDataTopic> viewTopic(@PathVariable Long id) {
+        return ResponseEntity.ok(topicService.viewTopic(id));
+    }
 }

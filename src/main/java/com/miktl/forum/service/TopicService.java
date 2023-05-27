@@ -48,5 +48,22 @@ public class TopicService {
     public Page<TopicListingData>ListTopics(Pageable pageable){
         return topicRepository.findAllWithAuthorAndCourse(pageable);
     }
+    public RegisteredDataTopic viewTopic(Long id) {
+        Topic topic= topicRepository.getReferenceById(id);
+        User user = userRepository.findById(topic.getId_user()).orElse(null);
+        String authorName= (user!=null)? user.getName() : null;
+        Course course = courseRepository.findById(topic.getId_course()).orElse(null);
+        String courseName=(course!=null)?course.getName():null;
+        RegisteredDataTopic dataTopic= new RegisteredDataTopic(
+                null,
+                topic.getTitle(),
+                topic.getMessage(),
+                topic.getCreationDate(),
+                topic.getStatusTopic(),
+                authorName,
+                courseName
+        );
+        return dataTopic;
+    }
 
 }
