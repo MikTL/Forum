@@ -5,9 +5,12 @@ import com.miktl.forum.domain.topic.Topic;
 import com.miktl.forum.domain.user.User;
 import com.miktl.forum.dto.topic.DataToRegisterTopic;
 import com.miktl.forum.dto.topic.RegisteredDataTopic;
+import com.miktl.forum.dto.topic.TopicListingData;
 import com.miktl.forum.repository.course.CourseRepository;
 import com.miktl.forum.repository.topic.TopicRepository;
 import com.miktl.forum.repository.user.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,4 +45,8 @@ public class TopicService {
                 courseName
         );
     }
+    public Page<TopicListingData>ListTopics(Pageable pageable){
+        return topicRepository.findAllWithAuthorAndCourse(pageable);
+    }
+
 }
