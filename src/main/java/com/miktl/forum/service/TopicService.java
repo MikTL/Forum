@@ -4,6 +4,7 @@ import com.miktl.forum.domain.course.Course;
 import com.miktl.forum.domain.topic.Topic;
 import com.miktl.forum.domain.user.User;
 import com.miktl.forum.dto.topic.DataToRegisterTopic;
+import com.miktl.forum.dto.topic.DataToUpdateTopic;
 import com.miktl.forum.dto.topic.RegisteredDataTopic;
 import com.miktl.forum.dto.topic.TopicListingData;
 import com.miktl.forum.repository.course.CourseRepository;
@@ -64,6 +65,24 @@ public class TopicService {
                 courseName
         );
         return dataTopic;
+    }
+
+    public RegisteredDataTopic updateTopic(Long id,DataToUpdateTopic dataToUpdateTopic) {
+        Topic topic= topicRepository.getReferenceById(id);
+        topic.updateData(dataToUpdateTopic);
+        User user = userRepository.findById(topic.getId_user()).orElse(null);
+        String authorName= (user!=null)? user.getName() : null;
+        Course course = courseRepository.findById(topic.getId_course()).orElse(null);
+        String courseName=(course!=null)?course.getName():null;
+        return new RegisteredDataTopic(
+                topic.getId(),
+                topic.getTitle(),
+                topic.getMessage(),
+                topic.getCreationDate(),
+                topic.getStatusTopic(),
+                authorName,
+                courseName
+        );
     }
 
 }

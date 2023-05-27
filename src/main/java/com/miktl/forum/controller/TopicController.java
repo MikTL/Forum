@@ -1,6 +1,7 @@
 package com.miktl.forum.controller;
 
 import com.miktl.forum.dto.topic.DataToRegisterTopic;
+import com.miktl.forum.dto.topic.DataToUpdateTopic;
 import com.miktl.forum.dto.topic.RegisteredDataTopic;
 import com.miktl.forum.dto.topic.TopicListingData;
 import com.miktl.forum.repository.topic.TopicRepository;
@@ -47,5 +48,17 @@ public class TopicController {
     @GetMapping("/{id}")
     public ResponseEntity<RegisteredDataTopic> viewTopic(@PathVariable Long id) {
         return ResponseEntity.ok(topicService.viewTopic(id));
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<RegisteredDataTopic> updateTopic(
+            @PathVariable
+            Long id,
+            @RequestBody
+            @Valid
+            DataToUpdateTopic dataToUpdateTopic
+    ) {
+        return ResponseEntity.ok(topicService.updateTopic(id,dataToUpdateTopic));
     }
 }

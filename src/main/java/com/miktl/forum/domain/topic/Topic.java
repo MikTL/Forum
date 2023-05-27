@@ -1,6 +1,7 @@
 package com.miktl.forum.domain.topic;
 
 import com.miktl.forum.dto.topic.DataToRegisterTopic;
+import com.miktl.forum.dto.topic.DataToUpdateTopic;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,5 +32,11 @@ public class Topic {
         this.statusTopic= StatusTopic.OPEN;
         this.id_user=dataToRegisterTopic.id_author();
         this.id_course=dataToRegisterTopic.id_course();
+    }
+
+    public void updateData(DataToUpdateTopic topic) {
+        if(topic.title()!=null) this.title=topic.title();
+        if(topic.message()!=null) this.message=topic.message();
+        if(topic.statusTopic()!=null) this.statusTopic=topic.statusTopic();
     }
 }
