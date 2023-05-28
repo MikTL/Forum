@@ -56,7 +56,7 @@ public class TopicService {
         Course course = courseRepository.findById(topic.getId_course()).orElse(null);
         String courseName=(course!=null)?course.getName():null;
         RegisteredDataTopic dataTopic= new RegisteredDataTopic(
-                null,
+                topic.getId(),
                 topic.getTitle(),
                 topic.getMessage(),
                 topic.getCreationDate(),
@@ -83,6 +83,11 @@ public class TopicService {
                 authorName,
                 courseName
         );
+    }
+
+    public void deleteTopic(Long id) {
+        Topic topic = topicRepository.getReferenceById(id);
+        topicRepository.delete(topic);
     }
 
 }

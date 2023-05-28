@@ -59,6 +59,13 @@ public class TopicController {
             @Valid
             DataToUpdateTopic dataToUpdateTopic
     ) {
-        return ResponseEntity.ok(topicService.updateTopic(id,dataToUpdateTopic));
+        return ResponseEntity.ok(topicService.updateTopic(id, dataToUpdateTopic));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deleteTopic(@PathVariable Long id) {
+        topicService.deleteTopic(id);
+        return ResponseEntity.noContent().build();
     }
 }
