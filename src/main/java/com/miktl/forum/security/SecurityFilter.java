@@ -11,6 +11,11 @@ import java.io.IOException;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
+    private TokenService tokenService;
+
+    public SecurityFilter(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
 
     @Override
     protected void doFilterInternal(
@@ -20,8 +25,13 @@ public class SecurityFilter extends OncePerRequestFilter {
     )
             throws ServletException, IOException
     {
-        String tokenAuth = request.getHeader("Authorization").replace("Bearer ", "");
+        String tokenAuth = request.getHeader("Authorization");
+        if(tokenAuth==null || tokenAuth ==""){
+            throw new RuntimeException("El token no puede ser nulo");
+        }
+        tokenAuth=tokenAuth.replace("Bearer ", "");
         System.out.println(tokenAuth);
+        System.out.println(tokenService.getSubject(tokenAuth));
         filterChain.doFilter(request,response);
     }
 }
