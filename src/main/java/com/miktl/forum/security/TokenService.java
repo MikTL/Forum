@@ -18,18 +18,17 @@ public class TokenService {
 
     private Dotenv dotenv;
     private String  secret;
-
     public TokenService(Dotenv dotenv) {
         this.dotenv = dotenv;
-        this.secret = dotenv.get("JWR_SECRET");
+        this.secret = dotenv.get("JWT_SECRET");
     }
     public String tokenGeneration(User user) {
         String token=null;
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+            Algorithm algorithm = Algorithm.HMAC256(this.secret);
             token = JWT.create()
                     .withIssuer("forum")
-                    .withSubject(user.getName())
+                    .withSubject(user.getEmail())
                     .withClaim("id", user.getId())
                     .withExpiresAt(generateExpireDate(5))
                     .sign(algorithm);
@@ -43,9 +42,12 @@ public class TokenService {
     }
 
     public String getSubject(String token) {
+        if(token==null){
+            throw new RuntimeException("Token is Null");
+        }
         DecodedJWT verifier=null;
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+            Algorithm algorithm = Algorithm.HMAC256(this.secret);
              verifier = JWT.require(algorithm)
                     .withIssuer("forum")
                     .build().verify(token);
@@ -53,14 +55,14 @@ public class TokenService {
             System.out.println(exception.toString());
         }
         if (verifier.getSubject() == null) {
-            throw new RuntimeException("Invalid Verfier");
+            throw new RuntimeException("Invalid Verifier");
         }
         return verifier.getSubject();
     }
 
     private Instant generateExpireDate(int hours) {
-        Instant ahora = Instant.now();
+        Instant now = Instant.now();
         Duration duration = Duration.ofHours(hours);
-        return ahora.plus(duration);
+        return now.plus(duration);
     }
 }
